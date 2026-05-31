@@ -1,0 +1,61 @@
+vim.keymap.set("i", ";pi", "π")
+vim.keymap.set("i", ";theta", "θ")
+vim.keymap.set("i", ";alpha", "α")
+vim.keymap.set("i", ";beta", "β")
+
+vim.keymap.set("i", ";sum", "∑")
+vim.keymap.set("i", ";int", "∫")
+vim.keymap.set("i", ";sqrt", "√")
+
+vim.keymap.set("i", ";inf", "∞")
+vim.keymap.set("i", ";and", "∧")
+vim.keymap.set("i", ";or", "∨")
+
+-- bật highlight cho NOTE
+vim.api.nvim_set_hl(0, "TodoNote", { fg = "#FFFF00", bold = true })
+vim.api.nvim_set_hl(0, "FixNote",  { fg = "#FF0000", bold = true })
+vim.api.nvim_set_hl(0, "NoteNote", { fg = "#00FFFF", bold = true })
+vim.api.nvim_set_hl(0, "NoteNoteNote", { fg = "#2249AB", bold = true })
+vim.fn.matchadd("TodoNote", "TODO:")
+vim.fn.matchadd("FixNote", "FIXME:")
+vim.fn.matchadd("NoteNote", "NOTE:")
+vim.fn.matchadd("NoteNoteNote", "DONE:")
+
+-- Ép buộc nền đen và chữ trắng cho tất cả các nhóm highlight
+vim.api.nvim_set_hl(0, "Normal", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "NonText", { fg = "#FFFFFF", bg = "#000000" })
+-- vim.api.nvim_set_hl(0, "Comment", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "Constant", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "String", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "Identifier", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "Function", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "Statement", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "PreProc", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "Type", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "Special", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "Underlined", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "Error", { fg = "#FFFFFF", bg = "#000000" })
+-- vim.api.nvim_set_hl(0, "Todo", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "Cursor", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "CursorLine", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "LineNr", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "StatusLine", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "StatusLineNC", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "VertSplit", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "Visual", { fg = "#FFFFFF", bg = "#000000" })
+-- vim.api.nvim_set_hl(0, "Search", { fg = "#FFFFFF", bg = "#000000" })
+-- vim.api.nvim_set_hl(0, "IncSearch", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "MatchParen", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "ModeMsg", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "MoreMsg", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "ErrorMsg", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "WarningMsg", { fg = "#FFFFFF", bg = "#000000" })
+vim.api.nvim_set_hl(0, "Question", { fg = "#FFFFFF", bg = "#000000" })
+
+-- tat auto formating
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "*",
+    callback = function()
+        vim.opt_local.formatoptions:remove({ "r", "o" })
+    end,
+})
