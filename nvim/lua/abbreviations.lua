@@ -20,7 +20,6 @@ vim.fn.matchadd("TodoNote", "TODO:")
 vim.fn.matchadd("FixNote", "FIXME:")
 vim.fn.matchadd("NoteNote", "NOTE:")
 vim.fn.matchadd("NoteNoteNote", "DONE:")
-
 -- Ép buộc nền đen và chữ trắng cho tất cả các nhóm highlight
 vim.api.nvim_set_hl(0, "Normal", { fg = "#FFFFFF", bg = "#000000" })
 vim.api.nvim_set_hl(0, "NonText", { fg = "#FFFFFF", bg = "#000000" })

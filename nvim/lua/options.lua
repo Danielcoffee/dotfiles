@@ -3,7 +3,6 @@ vim.opt.shellcmdflag = "-c"          -- đơn giản hóa shell
 -- tat ho tro chuot
 vim.opt.mouse = ""				
 vim.opt.title = false -- khong doi tieu de
-
 -- === KHÔNG HIỂN THỊ NHỮNG THỨ KHÔNG CẦN ===
 vim.opt.shortmess = "aIcF"     -- Giảm thông báo
 vim.opt.showtabline = 0        -- Tắt tab line
@@ -16,12 +15,10 @@ vim.opt.backup = false         -- Không tạo backup
 vim.opt.writebackup = false
 vim.opt.errorbells = false     -- Tắt tiếng chuông lỗi
 vim.opt.visualbell = false
-
 -- === INDENT (CÁCH DÒNG) - QUAN TRỌNG ===
 vim.opt.tabstop = 4            -- Tab = 4 spaces
 vim.opt.shiftwidth = 4         -- >> << = 4 spaces
 vim.opt.softtabstop = 4
-
 -- === TÌM KIẾM ===
 vim.opt.ignorecase = true      -- Không phân biệt hoa thường
 vim.opt.smartcase = true       -- Có chữ hoa thì phân biệt

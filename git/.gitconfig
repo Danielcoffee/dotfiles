@@ -1,5 +1,6 @@
 [user]
-    name = Daniel
+	name = Danielcoffee
+	email = nhatrangvtd@gmail.com
 
 [core]
     editor = nvim
