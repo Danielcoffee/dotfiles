@@ -1,0 +1,13 @@
+set selection-clipboard clipboard
+set adjust-open best-fit
+
+map J navigate next
+map K navigate previous
+
+set guioptions none
+set database sqlite
+# set recolor false
+set recolor true
+set recolor-lightcolor "#1e1e1e"
+set recolor-darkcolor "#d4d4d4"
+
