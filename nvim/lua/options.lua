@@ -1,17 +1,52 @@
--- Set leader key
+vim.opt.guicursor =
+  "n-v-c:block-blinkwait175-blinkon175-blinkoff175,i-ci:ver25-blinkwait175-blinkon175-blinkoff175,r-cr:hor20"
+
 vim.g.mapleader = ' '
 
-vim.keymap.set('n', '<leader>b', function()
-    vim.cmd('ls')
-    local bufnum = vim.fn.input(':b ')
-    if bufnum ~= '' then
-        vim.cmd('b ' .. bufnum)
+vim.keymap.set("n", "<leader>v", function()
+    -- Nếu panel đã tồn tại thì đóng
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+        local buf = vim.api.nvim_win_get_buf(win)
+        if vim.bo[buf].filetype == "bufpanel" then
+            vim.api.nvim_win_close(win, true)
+            return
+        end
     end
-end, { desc = 'List buffers and switch' })
 
--- vim.opt.colorcolumn = "120"
-vim.opt.wrap = false
-vim.opt.textwidth = 0
+    -- Mở panel bên trái, chiếm 33%
+    vim.cmd("topleft vnew")
+    vim.cmd("vertical resize 30") -- chỉnh theo màn hình
+
+    vim.bo.buftype = "nofile"
+    vim.bo.bufhidden = "wipe"
+    vim.bo.swapfile = false
+    vim.bo.filetype = "bufpanel"
+
+	local lines = {}
+	for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+		if vim.bo[buf].buflisted then
+			local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":t")
+			table.insert(lines, string.format("%3d  %s", buf, name))
+		end
+	end
+	vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+
+    vim.keymap.set("n", "r", function()
+		local lines = {}
+		for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+			if vim.bo[buf].buflisted then
+				local name = vim.fn.fnamemodify(vim.api.nvim_buf_get_name(buf), ":t")
+				table.insert(lines, string.format("%3d  %s", buf, name))
+			end
+		end
+		vim.api.nvim_buf_set_lines(0, 0, -1, false, lines)
+		end, { buffer = true })
+end)
+-- when text on A4: comment when no use
+-- vim.opt.textwidth = 80
+vim.opt.textwidth = 110
+-- vim.opt.colorcolumn = "81"
+-- vim.opt.wrap = true
 
 -- hidden trong buffer
 vim.opt.hidden = true
@@ -40,8 +75,8 @@ vim.opt.tabstop = 4            -- Tab = 4 spaces
 vim.opt.shiftwidth = 4         -- >> << = 4 spaces
 vim.opt.softtabstop = 4
 
-vim.opt.ignorecase = true      -- Không phân biệt hoa thường
-vim.opt.smartcase = true       -- Có chữ hoa thì phân biệt
+vim.opt.ignorecase = false
+vim.opt.smartcase = false
 vim.opt.incsearch = true       -- Tìm khi đang gõ
 vim.opt.hlsearch = true        -- Highlight kết quả
 
@@ -51,10 +86,14 @@ vim.opt.lazyredraw = true
 vim.opt.ttimeoutlen = 50       -- Giảm thời gian chờ phím
 vim.opt.timeoutlen = 500
 
+-- default cursor
+-- vim.opt.guicursor = ""
 vim.opt.number = true
 vim.opt.relativenumber = true
-vim.opt.scrolloff = 8
-vim.opt.sidescrolloff = 15                          -- Keep 8 columns left/right of cursor
+-- :set rnu
+-- :set nornu
+vim.opt.scrolloff = 10
+vim.opt.sidescrolloff = 15   
 
 -- tat cac thu gay roi
 vim.opt.showmode = false
@@ -63,6 +102,8 @@ vim.opt.termguicolors = true
 
 -- statusline toi gian
 vim.opt.laststatus = 0
+vim.opt.cmdheight = 1
+vim.opt.shortmess:append("sI")
 
 vim.opt.foldmethod = "indent" 
 vim.opt.foldlevel = 99
@@ -74,7 +115,6 @@ vim.opt.foldcolumn = "1"
 -- copy tu vim ra window don gian hon
 vim.opt.clipboard = "unnamedplus"
 
--- === GIAO DIỆN TỐI GIẢN ===
 vim.opt.fillchars = {
     eob = " ",                 -- Không hiển thị ~ ở cuối file
     fold = " ",
@@ -92,37 +132,7 @@ vim.fn.matchadd("FixNote", "FIXME:")
 vim.fn.matchadd("NoteNote", "NOTE:")
 vim.fn.matchadd("NoteNote1", "DONE:")
 
--- Ép buộc nền đen và chữ trắng cho tất cả các nhóm highlight
-vim.api.nvim_set_hl(0, "Normal", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "NonText", { fg = "#D0D0D0", bg = "#161616" })
--- vim.api.nvim_set_hl(0, "Comment", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "Constant", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "String", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "Identifier", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "Function", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "Statement", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "PreProc", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "Type", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "Special", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "Underlined", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "Error", { fg = "#D0D0D0", bg = "#161616" })
--- vim.api.nvim_set_hl(0, "Todo", { fg = "#D0D0D0", bg = "#161616" })
--- vim.api.nvim_set_hl(0, "Cursor", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "Cursor", { fg = "#FFFF00", bg = "#161616" })
-vim.api.nvim_set_hl(0, "CursorLine", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "LineNr", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "StatusLine", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "StatusLineNC", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "VertSplit", { fg = "#D0D0D0", bg = "#161616" })
--- vim.api.nvim_set_hl(0, "Visual", { bg = "#D0D0D0", fg = "#161616" })
--- vim.api.nvim_set_hl(0, "Search", { fg = "#D0D0D0", bg = "#161616" })
--- vim.api.nvim_set_hl(0, "IncSearch", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "MatchParen", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "ModeMsg", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "MoreMsg", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "ErrorMsg", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "WarningMsg", { fg = "#D0D0D0", bg = "#161616" })
-vim.api.nvim_set_hl(0, "Question", { fg = "#D0D0D0", bg = "#161616" })
+
 
 -- tat auto formating
 vim.api.nvim_create_autocmd("FileType", {
@@ -131,3 +141,31 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.opt_local.formatoptions:remove({ "r", "o" })
     end,
 })
+-- bo comment la duoc
+vim.api.nvim_set_hl(0, "Constant", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "String", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "Identifier", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "Function", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "Statement", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "PreProc", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "Type", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "Special", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "Underlined", { fg = "#C8C6D4", bg = "#282a36" })
+
+
+-- Các nhóm hiển thị thông báo, tìm kiếm & Con trỏ
+vim.api.nvim_set_hl(0, "Todo", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "Search", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "IncSearch", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "WarningMsg", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "ModeMsg", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "MoreMsg", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "ErrorMsg", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "Question", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "Error", { fg = "#C8C6D4", bg = "#282a36" })
+
+-- Các nhóm cấu hình giao diện & Nền
+vim.api.nvim_set_hl(0, "Normal", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "NonText", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "VertSplit", { fg = "#C8C6D4", bg = "#282a36" })
+vim.api.nvim_set_hl(0, "MatchParen", { fg = "#C8C6D4", bg = "#282a36" })
